@@ -3,11 +3,11 @@ import java.time.LocalDateTime;
 
 
 public abstract class Experiencia {
-    protected String Titulo;
-    protected String descricao;
-    protected LocalDateTime dataHora;
-    protected int capacidadeMax;
-    protected double precoBase;
+    private String Titulo;
+    private String descricao;
+    private LocalDateTime dataHora;
+    private int capacidadeMax;
+    private double precoBase;
 
     public Experiencia(String titulo, String descricao, LocalDateTime dataHora, int capacidadeMax, double precoBase){
         this.Titulo = titulo;
