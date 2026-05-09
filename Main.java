@@ -11,6 +11,7 @@ public class Main {
             opcao = scanner.nextInt();
             if (opcao == 4) {
                 ProgramaLigado = false;
+                scanner.close();
             }else{
                 System.out.println("Opção escolhida: " + opcao);
             }
