@@ -1,3 +1,4 @@
+package modelo;
 public abstract class Pessoa{
     protected String nome; 
     
