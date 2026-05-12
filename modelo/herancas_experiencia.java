@@ -1,21 +1,34 @@
-class Show extends Experiencia {
+package modelo;
+import java.time.LocalDateTime;
+
+
+public class Show extends Experiencia {
     private String artistaPrincipal;
 
-    public Show(String nome, String artistaPrincipal) {
-        super(nome);
+    public Show(String titulo, String descricao, LocalDateTime dataHora, int capacidadeMax, double precoBase, String artistaPrincipal) {
+        super(titulo, descricao, dataHora, capacidadeMax, precoBase);
         this.artistaPrincipal = artistaPrincipal;
     }
 
-    public String getArtistaPrincipal() { return artistaPrincipal; }
+    @Override
+    public String GerarResumo() {
+        return String.format("SHOW: %s | Artista: %s | Data: %s | Preço: R$%.2f",
+                getTitulo(), artistaPrincipal, getDataHora(), getPrecoBase());
+    }
 }
 
-class Workshop extends Experiencia {
+
+public class Workshop extends Experiencia {
     private String materiais;
 
-    public Workshop(String nome, String materiais) {
-        super(nome);
+    public Workshop(String titulo, String descricao, LocalDateTime dataHora, int capacidadeMax, double precoBase, String materiais) {
+        super(titulo, descricao, dataHora, capacidadeMax, precoBase);
         this.materiais = materiais;
     }
 
-    public String getMateriais() { return materiais; }
+    @Override
+    public String GerarResumo() {
+        return String.format("WORKSHOP: %s | Materiais: %s | Vagas: %d",
+                getTitulo(), materiais, getCapacidadeMax());
+    }
 }
