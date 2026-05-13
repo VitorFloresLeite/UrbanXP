@@ -11,6 +11,7 @@ public class Main {
         int opcao;
         ClienteGerenciar clienteGerenciador = new ClienteGerenciar();
         EventoGerenciar eventoGerenciador = new EventoGerenciar();
+        IngressoGerenciar ingressoGerenciador = new IngressoGerenciar();
         Scanner scanner = new Scanner(System.in);
 
         while (programaLigado) {
@@ -30,7 +31,7 @@ public class Main {
                     cadastrarCliente(scanner, clienteGerenciador);
                     break;
                 case 3:
-                    emitirIngresso(scanner, clienteGerenciador, eventoGerenciador);
+                    emitirIngresso(scanner, clienteGerenciador, eventoGerenciador, ingressoGerenciador);
                     break;
                 case 4:
                     programaLigado = false;
@@ -101,7 +102,7 @@ public class Main {
         }
     }
     
-    private static void emitirIngresso(Scanner scanner, ClienteGerenciar clienteGerenciador, EventoGerenciar eventoGerenciador) {
+    private static void emitirIngresso(Scanner scanner, ClienteGerenciar clienteGerenciador, EventoGerenciar eventoGerenciador, IngressoGerenciar ingressoGerenciador) {
         System.out.println("\n--- Emissão de Ingresso ---");
         System.out.println("Digite o nome do cliente:");
         String nomeCliente = scanner.nextLine();
@@ -121,8 +122,27 @@ public class Main {
             return;
         }
 
+
         // Aqui você pode implementar a lógica para emitir o ingresso, como verificar saldo, disponibilidade, etc.
-        System.out.println("Ingresso emitido para " + cliente.getNome() + " no evento " + evento.getTitulo());
+        ClientePerfil perfil = cliente.getPerfil();
+        PoliticaDesconto politica;
+        boolean prioridade = false;
+
+        if (perfil == ClientePerfil.ESTUDANTE){
+            politica = new DescontoEstudante();
+        }else if (perfil == ClientePerfil.PREMIUM){
+            politica = new DescontoPremium();
+            prioridade = true;
+        }else {
+            politica = new DescontoRegular();
+        }
+
+        double valorFinal = politica.calcularValor(evento.getPrecoBase());
+        Ingresso novoIngresso = new Ingresso(evento, cliente, valorFinal, IngressoStatus.RESERVADO, prioridade);
+        ingressoGerenciador.cadastrar(novoIngresso);
+
+        System.out.println("\nSucesso: ingresso emitido para " + cliente.getNome());
+        System.out.printf("Evento: %s | Valor final: R$ %.2f | Prioridade: %s\n\n", evento.getTitulo(), valorFinal, (prioridade ? "Sim" : "Não"));
         
     }
 }
