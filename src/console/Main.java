@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
         boolean programaLigado = true;
         int opcao;
-        ClienteGerenciar gerenciador = new ClienteGerenciar();
+        ClienteGerenciar clienteGerenciador = new ClienteGerenciar();
         EventoGerenciar eventoGerenciador = new EventoGerenciar();
         Scanner scanner = new Scanner(System.in);
 
@@ -24,9 +24,10 @@ public class Main {
                     cadastrarEvento(scanner, eventoGerenciador);
                     break;
                 case 2:
-                    cadastrarCliente(scanner, gerenciador);
+                    cadastrarCliente(scanner, clienteGerenciador);
                     break;
                 case 3:
+                    emitirIngresso(scanner, clienteGerenciador, eventoGerenciador);
                     break;
                 case 4:
                     programaLigado = false;
@@ -38,7 +39,7 @@ public class Main {
     }
 
 
-    private static void cadastrarCliente(Scanner scanner, ClienteGerenciar gerenciador) {
+    private static void cadastrarCliente(Scanner scanner, ClienteGerenciar clienteGerenciador) {
         System.out.println("Digite o nome do cliente:");
         String nome = scanner.nextLine();
 
@@ -54,13 +55,12 @@ public class Main {
         if(opcaoPerfil == 3) perfilEscolhido = ClientePerfil.PREMIUM;
 
         Cliente novoCliente = new Cliente(nome, saldo, perfilEscolhido);
-        gerenciador.cadastrar(novoCliente);
+        clienteGerenciador.cadastrar(novoCliente);
 
         System.out.println("Cliente " + nome + " cadastrado com sucesso!\n");
     }
 
-
-    private static void cadastrarEvento(Scanner scanner, EventoGerenciar gerenciador) {
+    private static void cadastrarEvento(Scanner scanner, EventoGerenciar clienteGerenciador) {
         System.out.println("\n--- Cadastro de Experiência ---");
         System.out.println("1-Show | 2-Workshop | 3-Passeio");
         int tipo = scanner.nextInt();
@@ -92,9 +92,34 @@ public class Main {
         }
 
         if (novaExp != null) {
-            gerenciador.cadastrar(novaExp);
+            clienteGerenciador.cadastrar(novaExp);
             System.out.println("Evento cadastrado com sucesso!");
             System.out.println(novaExp.GerarResumo());
         }
+    }
+    
+    private static void emitirIngresso(Scanner scanner, ClienteGerenciar clienteGerenciador, EventoGerenciar eventoGerenciador) {
+        System.out.println("\n--- Emissão de Ingresso ---");
+        System.out.println("Digite o nome do cliente:");
+        String nomeCliente = scanner.nextLine();
+        Cliente cliente = clienteGerenciador.buscarPorNome(nomeCliente);
+
+        if (cliente == null) {
+            System.out.println("Cliente não encontrado.");
+            return;
+        }
+
+        System.out.println("Digite o título do evento:");
+        String tituloEvento = scanner.nextLine();
+        Experiencia evento = eventoGerenciador.buscarPorTitulo(tituloEvento);
+
+        if (evento == null) {
+            System.out.println("Evento não encontrado.");
+            return;
+        }
+
+        // Aqui você pode implementar a lógica para emitir o ingresso, como verificar saldo, disponibilidade, etc.
+        System.out.println("Ingresso emitido para " + cliente.getNome() + " no evento " + evento.getTitulo());
+        
     }
 }
