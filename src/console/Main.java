@@ -15,7 +15,7 @@ public class Main {
 
         while (programaLigado) {
             System.out.print("Digite o número do que deseja fazer \n");
-            System.out.print("1 - Cadastrar evento \n2 - Cadastrar Cliente \n3- Emitir ingressos\n4 - Sair \n");
+            System.out.print("1 - Cadastrar evento \n2 - Cadastrar Cliente \n3 - Emitir ingressos\n4 - Sair \n");
             opcao = scanner.nextInt();
             scanner.nextLine();
 
