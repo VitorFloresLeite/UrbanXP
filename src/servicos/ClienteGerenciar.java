@@ -11,4 +11,15 @@ public class ClienteGerenciar {
     public void cadastrar(Cliente cliente) {
         this.listaClientes.add(cliente);
     }
+    public ArrayList<Cliente> getListaClientes() {
+        return listaClientes;
+    }
+    public Cliente buscarPorNome(String nome) {
+        for (Cliente cliente : listaClientes) {
+            if (cliente.getNome().trim().equalsIgnoreCase(nome.trim())) {
+                return cliente;
+            }
+        }
+        return null; // Retorna null se o cliente não for encontrado
+    }
 }
