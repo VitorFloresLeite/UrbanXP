@@ -1,19 +1,20 @@
 package modelo;
+public class Cliente extends Pessoa{
+    private double saldo;
+    private ClientePerfil perfil;
 
-public class Cliente extends Pessoa {
-
-    protected double saldo;
-
-    public Cliente(String nome, double saldo) {
-        this.nome = nome;
-        this.saldo = saldo;
+    public Cliente(String nome, double saldo, ClientePerfil perfil){
+        this.nome=nome;
+        this.saldo=saldo;
+        this.perfil=perfil;
     }
-
-    public void SetSaldo(double saldo) {
-        this.saldo = saldo;
+    public void setSaldo(double saldo){
+        this.saldo=saldo;
     }
-
-    public double GetSaldo() {
+    public double getSaldo(){
         return this.saldo;
+    }
+    public ClientePerfil getPerfil(){
+        return this.perfil;
     }
 }
