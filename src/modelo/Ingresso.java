@@ -14,22 +14,22 @@ public class Ingresso {
         this.status=status;
         this.prioridade=prioridade;
     }
-    public void setstatus(IngressoStatus status){//apenas o set do status, pois os outros atributos não devem ser alterados após a compra
+    public void setStatus(IngressoStatus status){//apenas o set do status, pois os outros atributos não devem ser alterados após a compra
         this.status=status;
     }
-    public Experiencia getexperiencia(){
+    public Experiencia getExperiencia(){
         return experiencia;
     }
-    public Cliente getcliente(){
+    public Cliente getCliente(){
         return cliente;
     }
-    public double getvalorFinalPago(){
+    public double getValorFinalPago(){
         return valorFinalPago;
     }
-    public IngressoStatus getstatus(){
+    public IngressoStatus getStatus(){
         return status;
     }
-    public boolean getprioridade(){
+    public boolean getPrioridade(){
         return prioridade;
     }
 }
