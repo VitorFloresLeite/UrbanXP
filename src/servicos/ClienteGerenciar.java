@@ -1,6 +1,7 @@
 package servicos;
-import modelo.Cliente;
 import java.util.ArrayList;
+import modelo.Cliente;
+
 public class ClienteGerenciar {
     private ArrayList<Cliente> listaClientes;
     

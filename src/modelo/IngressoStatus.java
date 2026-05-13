@@ -1,4 +1,4 @@
 package modelo;
-enum StatusIngresso {
+public enum IngressoStatus {
     RESERVADO, PAGO, CANCELADO;
 }
