@@ -1,5 +1,7 @@
 package console;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
 import modelo.*;
 import servicos.*;
@@ -15,7 +17,7 @@ public class Main {
 
         while (programaLigado) {
             System.out.print("Digite o número do que deseja fazer \n");
-            System.out.print("1 - Cadastrar evento \n2 - Cadastrar Cliente \n3- Emitir ingressos\n4 - Sair \n");
+            System.out.print("1 - Cadastrar evento \n2 - Cadastrar Cliente \n3- Emitir ingressos \n4 - Listar eventos \n5 - Sair \n");
             opcao = scanner.nextInt();
             scanner.nextLine();
 
@@ -29,6 +31,9 @@ public class Main {
                 case 3:
                     break;
                 case 4:
+                    ListarEventos(scanner, eventoGerenciador);
+                    break;
+                case 5:
                     programaLigado = false;
                     break;
                 default:
@@ -59,6 +64,38 @@ public class Main {
         System.out.println("Cliente " + nome + " cadastrado com sucesso!\n");
     }
 
+    private static void ListarEventos(Scanner scanner, EventoGerenciar gerenciador){
+        System.out.println("\n--- Listar Eventos ---");
+        System.out.println("1-Por nome | 2-Por preço | 3-Por data");
+        int modo = scanner.nextInt();
+        List<Experiencia> listaEventos = gerenciador.listarTodos();
+        switch(modo){
+            case 1:
+                listaEventos.sort(Comparator.comparing(Experiencia::getTitulo));
+                break;
+            case 2:
+                listaEventos.sort(Comparator.comparing(Experiencia::getPrecoBase));
+                break;
+            case 3:
+                listaEventos.sort(Comparator.comparing(Experiencia::getDataHora));
+                break;
+            default:
+                throw new AssertionError();
+        }
+
+        for (Experiencia experiencia : listaEventos) {
+            String tipo = "";
+            if(experiencia instanceof Show){
+                tipo = "( Show )";
+            }else if(experiencia instanceof Workshop){
+                tipo = "( Workshop )";
+            }else if(experiencia instanceof PasseioTuristico){
+                tipo = " ( Passeio turístico ) ";
+            }
+
+            System.out.println("\n ---> " + tipo + experiencia.getTitulo() + ": R$" + experiencia.getPrecoBase());
+        }
+    }
 
     private static void cadastrarEvento(Scanner scanner, EventoGerenciar gerenciador) {
         System.out.println("\n--- Cadastro de Experiência ---");
