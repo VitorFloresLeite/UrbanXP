@@ -69,7 +69,6 @@ public class Main {
         System.out.print("Título: ");
         String titulo = scanner.nextLine();
         System.out.print("Preço Base: ");
-        System.out.print("Preço Base: ");
         String input = scanner.nextLine().replace(",", ".");
         double preco = Double.parseDouble(input);
 
