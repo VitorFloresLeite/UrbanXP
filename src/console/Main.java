@@ -11,13 +11,15 @@ public class Main {
     public static void main(String[] args) {
         boolean programaLigado = true;
         int opcao;
+
         ClienteGerenciar clienteGerenciador = new ClienteGerenciar();
         EventoGerenciar eventoGerenciador = new EventoGerenciar();
         IngressoGerenciar ingressoGerenciador = new IngressoGerenciar();
+        
         Scanner scanner = new Scanner(System.in);
 
         while (programaLigado) {
-            System.out.print("Digite o número do que deseja fazer \n");
+            System.out.print("\nDigite o número do que deseja fazer \n");
             System.out.print("1 - Cadastrar evento \n2 - Cadastrar Cliente \n3 - Emitir ingressos \n4 - Listar eventos \n5 - Sair \n");
             opcao = scanner.nextInt();
             scanner.nextLine();
