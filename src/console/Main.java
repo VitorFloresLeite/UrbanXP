@@ -71,6 +71,9 @@ public class Main {
                         case 1:
                             cadastrarCliente(scanner, clienteGerenciador);
                             break;
+                        case 2:
+                            ListarClientes(clienteGerenciador);
+                            break;
                         default:
                             throw new AssertionError();
                     }
@@ -92,6 +95,9 @@ public class Main {
                             break;
                         case 1:
                             emitirIngresso(scanner, clienteGerenciador, eventoGerenciador, ingressoGerenciador);
+                            break;
+                        case 2:
+                            ListarIngressos(ingressoGerenciador);
                             break;
                         default:
                             throw new AssertionError();
@@ -177,7 +183,7 @@ public class Main {
             System.out.println("\n ---> " + tipo + experiencia.getTitulo() + ": R$" + experiencia.getPrecoBase());
         }
     }
-
+    
     private static void cadastrarEvento(Scanner scanner, EventoGerenciar eventoGerenciador) {//ERRO: CADASTRO DE EVENTOS != SHOW SEM COERÊNCIA DE DADOS
         System.out.println("\n--- Cadastro de Evento ---");
         System.out.println("1-Show | 2-Workshop | 3-Passeio");
@@ -296,6 +302,33 @@ public class Main {
 
         System.out.println("\nSucesso: ingresso emitido para " + cliente.getNome());
         System.out.printf("Evento: %s | Valor final: R$ %.2f | Prioridade: %s\n\n", evento.getTitulo(), valorFinal, (prioridade ? "Sim" : "Não"));
-        
+    }
+    
+    private static void ListarClientes(ClienteGerenciar gerenciador){
+        System.out.println("\n--- Listar Clientes ---");
+        List<Cliente> listaClientes = gerenciador.getListaClientes();
+
+        if(listaClientes.isEmpty()){
+            System.out.println("Nenhum cliente cadastrado.");
+            return;
+        }
+
+        for (Cliente cliente : listaClientes) {
+            System.out.println("\n ---> " + cliente.getNome() + " | Saldo: R$" + cliente.getSaldo() + " | Perfil: " + cliente.getPerfil());
+        }
+    }
+    
+    private static void ListarIngressos(IngressoGerenciar gerenciador){
+        System.out.println("\n--- Listar Ingressos ---");
+        List<Ingresso> listaIngressos = gerenciador.listarTodos();
+
+        if(listaIngressos.isEmpty()){
+            System.out.println("Nenhum ingresso emitido.");
+            return;
+        }
+
+        for (Ingresso ingresso : listaIngressos) {
+            ingresso.exibirDetalhes();
+        }
     }
 }
