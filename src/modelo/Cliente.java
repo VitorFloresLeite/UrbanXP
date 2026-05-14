@@ -16,7 +16,7 @@ public class Cliente{
         return this.perfil;
     }
 
-    public Cliente(String nome, double saldo, ClientePerfil perfil){
+    public Cliente(String nome, ClientePerfil perfil){
         this.nome=nome;
         this.perfil=perfil;
     }
