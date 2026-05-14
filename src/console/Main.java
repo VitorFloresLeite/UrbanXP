@@ -149,7 +149,7 @@ public class Main {
             System.out.println("Nenhum evento cadastrado.");
             return;
         }
-        
+
         switch(modo){
             case 1:
                 listaEventos.sort(Comparator.comparing(Experiencia::getTitulo));
@@ -189,24 +189,32 @@ public class Main {
         System.out.print("Preço Base: ");
         String input = scanner.nextLine().replace(",", ".");
         double preco = Double.parseDouble(input);
+        System.out.print("Data e Hora do Evento (DD/MM/AAAA HH:MM): ");
 
-        java.time.LocalDateTime agora = java.time.LocalDateTime.now();
+        String dataHoraInput = scanner.nextLine();
+        java.time.LocalDateTime dataHoraEvento = java.time.LocalDateTime.parse(dataHoraInput, java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
         Experiencia novaExp = null;
 
-        if (tipo == 1) {
-            System.out.print("Artista Principal: ");
-            String artista = scanner.nextLine();
-            novaExp = new Show(titulo, "Show Musical", agora, 100, preco, artista);
-        } else if (tipo == 2) {
-            System.out.print("Materiais: ");
-            String mat = scanner.nextLine();
-            novaExp = new Workshop(titulo, "Workshop Prático", agora, 30, preco, mat);
-        } else if (tipo == 3) {
-            System.out.print("Ponto de Encontro: ");
-            String ponto = scanner.nextLine();
-            System.out.print("Guia: ");
-            String guia = scanner.nextLine();
-            novaExp = new PasseioTuristico(titulo, "Passeio Turístico", agora, 20, preco, ponto, guia);
+        switch (tipo) {//Campos não especificados pelo atendente, mas necessários para o cadastro de cada tipo de evento
+            case 1:
+                System.out.print("Artista Principal: ");
+                String artista = scanner.nextLine();
+                novaExp = new Show(titulo, "Show Musical", dataHoraEvento, 100, preco, artista);
+                break;
+            case 2:
+                System.out.print("Materiais: ");
+                String mat = scanner.nextLine();
+                novaExp = new Workshop(titulo, "Workshop Prático", dataHoraEvento, 30, preco, mat);
+                break;
+            case 3:
+                System.out.print("Ponto de Encontro: ");
+                String ponto = scanner.nextLine();
+                System.out.print("Guia: ");
+                String guia = scanner.nextLine();
+                novaExp = new PasseioTuristico(titulo, "Passeio Turístico", dataHoraEvento, 20, preco, ponto, guia);
+                break;
+            default:
+                System.out.println("Tipo de evento inválido.");
         }
 
         if (novaExp != null) {
