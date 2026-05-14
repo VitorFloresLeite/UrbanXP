@@ -24,42 +24,22 @@ public class Main {
             System.out.print("1 - Menu de Eventos \n2 - Menu de Clientes \n3 - Menu de Ingressos\n4 - Sair \n");
             System.out.println("------------------------------");
 
-            opcao = -1;
-            while (true) {
-                try {
-                    opcao = scanner.nextInt();
-                    scanner.nextLine(); // consome o newline restante
-                    break; // entrada válida, sai do loop
-                } catch (java.util.InputMismatchException e) {
-                    System.out.println("Entrada inválida. Por favor, insira um número correspondente às opções.");
-                    scanner.nextLine(); // descarta a entrada inválida
-                }
-            }
+            // Substituído o try-catch repetitivo pelo método lerInteiro
+            opcao = lerInteiro(scanner, "Opção: ");
             
             switch (opcao) {
-                case 1://menu de eventos
+                case 1:
                     System.out.println("\n------- Menu de Eventos ------");
                     System.out.println("Selecione uma opção:");
                     System.out.println("1 - Cadastrar Evento");
                     System.out.println("2 - Listar Eventos");
-                    
                     System.out.println("\n0 - Voltar");
                     System.out.println("------------------------------");
 
-                    int subOpcao = -1;
-                    while (true) {
-                        try {
-                            subOpcao = scanner.nextInt();
-                            scanner.nextLine(); // consome o newline restante
-                            break; // entrada válida, sai do loop
-                        } catch (java.util.InputMismatchException e) {
-                            System.out.println("Entrada inválida. Por favor, insira um número correspondente às opções.");
-                            scanner.nextLine(); // descarta a entrada inválida
-                        }
-                    }
+                    int subOpcao = lerInteiro(scanner, "Opção: ");
 
                     switch (subOpcao) {
-                        case 0://voltar para o menu principal
+                        case 0:
                             break;
                         case 1:
                             cadastrarEvento(scanner, eventoGerenciador);
@@ -68,32 +48,21 @@ public class Main {
                             listarEventos(scanner, eventoGerenciador);
                             break;
                         default:
-                            System.out.println("Opção inválida. Por favor, escolha uma opção válida.");
+                            System.out.println("Opção inválida.");
                     }
                     break;
-                case 2://menu de clientes
+                case 2:
                     System.out.println("\n------ Menu de Clientes ------");
                     System.out.println("Selecione uma opção:");
                     System.out.println("1 - Cadastrar Cliente");
                     System.out.println("2 - Listar Clientes");
-                    
                     System.out.println("\n0 - Voltar");
                     System.out.println("------------------------------");
 
-                    subOpcao = -1;
-                    while (true) {
-                        try {
-                            subOpcao = scanner.nextInt();
-                            scanner.nextLine(); // consome o newline restante
-                            break; // entrada válida, sai do loop
-                        } catch (java.util.InputMismatchException e) {
-                            System.out.println("Entrada inválida. Por favor, insira um número correspondente às opções.");
-                            scanner.nextLine(); // descarta a entrada inválida
-                        }
-                    }
+                    subOpcao = lerInteiro(scanner, "Opção: ");
 
                     switch (subOpcao) {
-                        case 0://voltar para o menu principal
+                        case 0:
                             break;
                         case 1:
                             cadastrarCliente(scanner, clienteGerenciador);
@@ -102,31 +71,21 @@ public class Main {
                             listarClientes(clienteGerenciador);
                             break;
                         default:
-                            System.out.println("Opção inválida. Por favor, escolha uma opção válida.");
+                            System.out.println("Opção inválida.");
                     }
                     break;
-                case 3://menu de ingressos
+                case 3:
                     System.out.println("\n--- Menu de Ingressos ---");
                     System.out.println("Selecione uma opção:");
                     System.out.println("1 - Emitir Ingresso");
                     System.out.println("2 - Listar Ingressos");
-                    
+                    System.out.println("3 - Editar Status");
                     System.out.println("0 - Voltar");
                     System.out.println("-------------------------");
                     
-                    subOpcao = -1;
-                    while (true) {
-                        try {
-                            subOpcao = scanner.nextInt();
-                            scanner.nextLine(); // consome o newline restante
-                            break; // entrada válida, sai do loop
-                        } catch (java.util.InputMismatchException e) {
-                            System.out.println("Entrada inválida. Por favor, insira um número correspondente às opções.");
-                            scanner.nextLine(); // descarta a entrada inválida
-                        }
-                    }
+                    subOpcao = lerInteiro(scanner, "Opção: ");
                     switch (subOpcao) {
-                        case 0://voltar para o menu principal
+                        case 0:
                             break;
                         case 1:
                             emitirIngresso(scanner, clienteGerenciador, eventoGerenciador, ingressoGerenciador);
@@ -138,7 +97,7 @@ public class Main {
                             editarStatusIngresso(ingressoGerenciador, scanner);
                             break;
                         default:
-                            System.out.println("Opção inválida. Por favor, escolha uma opção válida.");
+                            System.out.println("Opção inválida.");
                     }
                     break;
                 case 4:
@@ -146,9 +105,8 @@ public class Main {
                     scanner.close();
                     programaLigado = false;
                     break;
-
                 default:
-                    System.out.println("Opção inválida. Por favor, escolha uma opção válida.");
+                    System.out.println("Opção inválida.");
             }
         }
     }
@@ -162,7 +120,7 @@ public class Main {
         System.out.println("2 - Estudante");
         System.out.println("3 - Premium");
         
-        int opcaoPerfil = scanner.nextInt();
+        int opcaoPerfil = lerInteiro(scanner, "Opção: ");
 
         ClientePerfil perfilEscolhido = ClientePerfil.REGULAR;
         if(opcaoPerfil == 2) perfilEscolhido = ClientePerfil.ESTUDANTE;
@@ -174,14 +132,14 @@ public class Main {
         System.out.println("Cliente " + nome + " cadastrado com sucesso!\n");
     }
 
-    private static void listarEventos(Scanner scanner, EventoGerenciar gerenciador){//SEM SUPORTE A INFORMAÇÕES EXTRAS
+    private static void listarEventos(Scanner scanner, EventoGerenciar gerenciador){
         System.out.println("\n--- Listar Eventos ---");
         System.out.println("Como deseja ordenar sua pesquisa?");
         System.out.println("1-Por nome");
         System.out.println("2-Por preço");
         System.out.println("3-Por data");
 
-        int modo = scanner.nextInt();
+        int modo = lerInteiro(scanner, "Opção: ");
         List<Experiencia> listaEventos = gerenciador.listarTodos();
         
         if(listaEventos.isEmpty()){
@@ -200,7 +158,8 @@ public class Main {
                 listaEventos.sort(Comparator.comparing(Experiencia::getDataHora));
                 break;
             default:
-                throw new AssertionError();
+                System.out.println("Opção inválida para ordenação.");
+                return;
         }
 
         for (Experiencia experiencia : listaEventos) {
@@ -212,16 +171,14 @@ public class Main {
             }else if(experiencia instanceof PasseioTuristico){
                 tipo = " ( Passeio turístico ) ";
             }
-
             System.out.println("\n ---> " + tipo + experiencia.getTitulo() + ": R$" + experiencia.getPrecoBase());
         }
     }
 
-    private static void cadastrarEvento(Scanner scanner, EventoGerenciar eventoGerenciador) {//ERRO: CADASTRO DE EVENTOS != SHOW SEM COERÊNCIA DE DADOS
+    private static void cadastrarEvento(Scanner scanner, EventoGerenciar eventoGerenciador) {
         System.out.println("\n--- Cadastro de Evento ---");
         System.out.println("1-Show | 2-Workshop | 3-Passeio");
-        int tipo = scanner.nextInt();
-        scanner.nextLine();
+        int tipo = lerInteiro(scanner, "Opção: ");
 
         System.out.print("Título: ");
         String titulo = scanner.nextLine();
@@ -231,32 +188,10 @@ public class Main {
         double preco = Double.parseDouble(input);
 
         System.out.print("Data do Evento (DD/MM/AAAA): ");
-        String dataInput = null;
-    
-        try {//por segurança, para evitar que o programa quebre caso o usuário insira um formato de data inválido
-            dataInput = scanner.nextLine().trim();
-        } catch (Exception e) {
-            System.out.println("Data inválida.");
-        }
-
-        if (dataInput == null || dataInput.isEmpty()) {//verificação adicional para garantir que a data foi lida corretamente
-            System.out.println("Falha ao ler a data. Cancelando cadastro.");
-            return;
-        }
+        String dataInput = scanner.nextLine().trim();
 
         System.out.print("Hora do Evento (HH:MM): ");
-        String horaInput = null;
-
-        try {//mesma lógica de segurança para a hora
-            horaInput = scanner.nextLine().trim();
-        } catch (Exception e) {
-            System.out.println("Hora inválida.");
-        }
-
-        if (horaInput == null || horaInput.isEmpty()) {
-            System.out.println("Falha ao ler a hora. Cancelando cadastro.");
-            return;
-        }
+        String horaInput = scanner.nextLine().trim();
 
         java.time.LocalDateTime dataHoraEvento;
         try {
@@ -265,57 +200,41 @@ public class Main {
             System.out.println("Formato de data/hora inválido. Cancelando cadastro.");
             return;
         }
+        
         Experiencia novaExp = null;
 
         switch (tipo) {
             case 1:
                 System.out.print("Artista Principal: ");
                 String artista = scanner.nextLine();
-
-                Show.Builder showBuilder = new Show.Builder(
-                    titulo, "Show Musical", dataHoraEvento, 100, preco, artista
-                );
-
+                Show.Builder showBuilder = new Show.Builder(titulo, "Show Musical", dataHoraEvento, 100, preco, artista);
                 preencherOpcionais(scanner, showBuilder);
                 novaExp = showBuilder.build();
                 break;
-
             case 2:
                 System.out.print("Materiais: ");
                 String mat = scanner.nextLine();
-
-                Workshop.Builder workshopBuilder = new Workshop.Builder(
-                    titulo, "Workshop Prático", dataHoraEvento, 30, preco, mat
-                );
-
+                Workshop.Builder workshopBuilder = new Workshop.Builder(titulo, "Workshop Prático", dataHoraEvento, 30, preco, mat);
                 preencherOpcionais(scanner, workshopBuilder);
                 novaExp = workshopBuilder.build();
                 break;
-
             case 3:
                 System.out.print("Ponto de Encontro: ");
                 String ponto = scanner.nextLine();
-
                 System.out.print("Nome do guia turístico: ");
                 String guia = scanner.nextLine();
-
-                PasseioTuristico.Builder passeioBuilder = new PasseioTuristico.Builder(
-                    titulo, "Passeio Turístico", dataHoraEvento, 20, preco, ponto, guia
-                );
-
+                PasseioTuristico.Builder passeioBuilder = new PasseioTuristico.Builder(titulo, "Passeio Turístico", dataHoraEvento, 20, preco, ponto, guia);
                 preencherOpcionais(scanner, passeioBuilder);
                 novaExp = passeioBuilder.build();
                 break;
-
             default:
                 System.out.println("Tipo de evento inválido.");
         }
 
-
         if (novaExp != null) {
             eventoGerenciador.cadastrar(novaExp);
             System.out.println("Evento cadastrado com sucesso!");
-            novaExp.GerarResumo();
+            System.out.println(novaExp.GerarResumo()); 
         }
     }
 
@@ -343,156 +262,70 @@ public class Main {
         }
     }
 
-    
     private static void emitirIngresso(Scanner scanner, ClienteGerenciar clienteGerenciador, EventoGerenciar eventoGerenciador, IngressoGerenciar ingressoGerenciador) {
         System.out.println("\n--- Emissão de Ingresso ---");
 
         Cliente cliente = null;
-        // Loop até obter um cliente válido ou o usuário cancelar
         while (true) {
             System.out.print("Digite o nome do cliente (ou 0 para cancelar): ");
             String nomeCliente = scanner.nextLine().trim();
-
-            if ("0".equals(nomeCliente)) {
-                System.out.println("Operação cancelada.");
-                return;
-            }
-            if (nomeCliente.isEmpty()) {
-                System.out.println("Nome não pode ser vazio. Tente novamente.");
-                continue;
-            }
-
-            try {
-                cliente = clienteGerenciador.buscarPorNome(nomeCliente);
-            } catch (Exception e) {
-                System.out.println("Erro ao buscar cliente. Tente novamente.");
-                continue;
-            }
-
+            if ("0".equals(nomeCliente)) return;
+            cliente = clienteGerenciador.buscarPorNome(nomeCliente);
             if (cliente == null) {
-                System.out.print("Cliente não encontrado. Deseja tentar novamente? (s/n): ");
-                String opc = scanner.nextLine().trim().toLowerCase();
-                if (opc.equals("s") || opc.equals("sim")) {
-                    continue;
-                } else {
-                    System.out.println("Operação cancelada.");
-                    return;
-                }
-            }
-
-            // cliente encontrado
-            break;
+                System.out.println("Cliente não encontrado.");
+            } else break;
         }
 
         Experiencia evento = null;
-        // Loop até obter um evento válido ou o usuário cancelar
         while (true) {
             System.out.println("Digite o título do evento (ou 0 para cancelar): ");
             String tituloEvento = scanner.nextLine().trim();
-
-            if ("0".equals(tituloEvento)) {
-                System.out.println("Operação cancelada.");
-                return;
-            }
-            if (tituloEvento.isEmpty()) {
-                System.out.println("Título não pode ser vazio. Tente novamente.");
-                continue;
-            }
-
-            try {
-                evento = eventoGerenciador.buscarPorTitulo(tituloEvento);
-            } catch (Exception e) {
-                System.out.println("Erro ao buscar evento. Tente novamente.");
-                continue;
-            }
-
+            if ("0".equals(tituloEvento)) return;
+            evento = eventoGerenciador.buscarPorTitulo(tituloEvento);
             if (evento == null) {
-                System.out.println("Evento não encontrado. Deseja listar os eventos disponíveis? (s/n): ");
-                String opc = scanner.nextLine().trim().toLowerCase();
-                if (opc.equals("s") || opc.equals("sim")) {
-                    List<Experiencia> todos = eventoGerenciador.listarTodos();
-                    if (todos.isEmpty()) {
-                        System.out.println("Nenhum evento cadastrado.");
-                    } else {
-                        System.out.println("\nEventos disponíveis:");
-                        for (Experiencia e : todos) {
-                            System.out.println(" - " + e.getTitulo() + " | R$" + e.getPrecoBase());
-                        }
-                    }
-                }
-                System.out.println("Deseja tentar informar outro título? (s/n): ");
-                String retry = scanner.nextLine().trim().toLowerCase();
-                if (retry.equals("s") || retry.equals("sim")) {
-                    continue;
-                } else {
-                    System.out.println("Operação cancelada.");
-                    return;
-                }
-            }
-
-            // evento encontrado
-            break;
+                System.out.println("Evento não encontrado.");
+            } else break;
         }
 
-        // Determina política de desconto e prioridade conforme perfil
         PoliticaDesconto politica;
         boolean prioridade = false;
         ClientePerfil perfil = cliente.getPerfil();
-        try {
-            if (perfil == ClientePerfil.ESTUDANTE) {
-                politica = new DescontoEstudante();
-            } else if (perfil == ClientePerfil.PREMIUM) {
-                politica = new DescontoPremium();
-                prioridade = true;
-            } else {
-                politica = new DescontoRegular();
-            }
-        } catch (Exception e) {
-            System.out.println("Erro ao determinar política de desconto. Operação cancelada.");
-            return;
+
+        if (perfil == ClientePerfil.ESTUDANTE) {
+            politica = new DescontoEstudante();
+        } else if (perfil == ClientePerfil.PREMIUM) {
+            politica = new DescontoPremium();
+            prioridade = true;
+        } else {
+            politica = new DescontoRegular();
         }
 
-        double valorFinal;
-        try {
-            valorFinal = politica.calcularValor(evento.getPrecoBase());
-        } catch (Exception e) {
-            System.out.println("Erro ao calcular o valor do ingresso. Operação cancelada.");
-            return;
-        }
-
-        try {
-            Ingresso novoIngresso = new Ingresso(evento, cliente, valorFinal, IngressoStatus.RESERVADO, prioridade);
-            ingressoGerenciador.cadastrar(novoIngresso);
-            System.out.println("\nSucesso: ingresso emitido para " + cliente.getNome());
-            novoIngresso.exibirDetalhes();
-        } catch (Exception e) {
-            System.out.println("Erro ao emitir ingresso. Operação não concluída.");
-        }
+        double valorFinal = politica.calcularValor(evento.getPrecoBase());
+        Ingresso novoIngresso = new Ingresso(evento, cliente, valorFinal, IngressoStatus.RESERVADO, prioridade);
+        ingressoGerenciador.cadastrar(novoIngresso);
+        System.out.println("\nSucesso: ingresso emitido!");
+        novoIngresso.exibirDetalhes();
     }
     
     private static void listarClientes(ClienteGerenciar gerenciador){
         System.out.println("\n--- Listar Clientes ---");
         List<Cliente> listaClientes = gerenciador.getListaClientes();
-
         if(listaClientes.isEmpty()){
             System.out.println("Nenhum cliente cadastrado.");
             return;
         }
-
         for (Cliente cliente : listaClientes) {
-            System.out.println("\n ---> " + cliente.getNome() + " |  Perfil: " + cliente.getPerfil());
+            System.out.println("\n ---> " + cliente.getNome() + " | Perfil: " + cliente.getPerfil());
         }
     }
     
     private static void listarIngressos(IngressoGerenciar gerenciador){
         System.out.println("\n--- Listar Ingressos ---");
         List<Ingresso> listaIngressos = gerenciador.listarTodos();
-
         if(listaIngressos.isEmpty()){
             System.out.println("Nenhum ingresso emitido.");
             return;
         }
-
         for (Ingresso ingresso : listaIngressos) {
             ingresso.exibirDetalhes();
         }
@@ -507,53 +340,23 @@ public class Main {
             return;
         }
 
-        // Listar verticalmente com números
         for (int i = 0; i < listaIngressos.size(); i++) {
-            Ingresso ing = listaIngressos.get(i);
-            System.out.println("\n**********************************");
             System.out.println("Número: " + (i + 1));
-            ing.exibirDetalhes();
+            listaIngressos.get(i).exibirDetalhes();
         }
 
-        System.out.print("\nEscolha o número do ingresso que deseja alterar (0 para cancelar): ");
-        int escolhaIndex;
-        try {
-            escolhaIndex = scanner.nextInt();
-        } catch (Exception e) {
-            System.out.println("Entrada inválida. Cancelando operação.");
-            scanner.nextLine();
-            return;
-        }
-        scanner.nextLine(); // limpar buffer
-
-        if (escolhaIndex == 0) {
-            System.out.println("Operação cancelada.");
-            return;
-        }
-        if (escolhaIndex < 1 || escolhaIndex > listaIngressos.size()) {
-            System.out.println("Número inválido.");
-            return;
-        }
+        int escolhaIndex = lerInteiro(scanner, "Escolha o número (0 para cancelar): ");
+        if (escolhaIndex == 0) return;
 
         Ingresso ingressoSelecionado = listaIngressos.get(escolhaIndex - 1);
 
         System.out.println("\nIngresso selecionado:");
         ingressoSelecionado.exibirDetalhes();
 
-        System.out.println("\nSelecione o novo status:");
-        System.out.println("1 - PAGO");
-        System.out.println("2 - RESERVADO");
-        System.out.println("3 - CANCELADO");
-        System.out.print("Opção: ");
+        System.out.println("\n1 - PAGO | 2 - RESERVADO | 3 - CANCELADO");
 
         int opcaoStatus;
-        try {
-            opcaoStatus = scanner.nextInt();
-        } catch (Exception e) {
-            System.out.println("Entrada inválida. Cancelando operação.");
-            scanner.nextLine();
-            return;
-        }
+        opcaoStatus = lerInteiro(scanner, "Novo status: ");
         scanner.nextLine();
         if (ingressoSelecionado.getStatus() != IngressoStatus.CANCELADO) {
             switch (opcaoStatus) {
@@ -573,6 +376,22 @@ public class Main {
             System.out.println("Status do ingresso atualizado com sucesso para: " + ingressoSelecionado.getStatus());
         }else{
             System.out.println("\nO ingresso foi cancelado, status não pode mais ser atualizado");
+        }
+        
+    }
+
+   
+    private static int lerInteiro(Scanner scanner, String mensagem) {
+        while (true) {
+            try {
+                System.out.print(mensagem);
+                int valor = scanner.nextInt();
+                scanner.nextLine(); 
+                return valor;
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Erro: Digite um número válido.");
+                scanner.nextLine(); 
+            }
         }
     }
 }
