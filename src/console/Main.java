@@ -158,10 +158,6 @@ public class Main {
         System.out.println("Digite o nome do cliente:");
         String nome = scanner.nextLine();
 
-        System.out.println("Digite o saldo do cliente:");
-        double saldo = scanner.nextDouble();
-        scanner.nextLine();
-
         System.out.println("Escolha o perfil:");
         System.out.println("1 - Regular");
         System.out.println("2 - Estudante");
@@ -173,7 +169,7 @@ public class Main {
         if(opcaoPerfil == 2) perfilEscolhido = ClientePerfil.ESTUDANTE;
         if(opcaoPerfil == 3) perfilEscolhido = ClientePerfil.PREMIUM;
 
-        Cliente novoCliente = new Cliente(nome, saldo, perfilEscolhido);
+        Cliente novoCliente = new Cliente(nome, perfilEscolhido);
         clienteGerenciador.cadastrar(novoCliente);
 
         System.out.println("Cliente " + nome + " cadastrado com sucesso!\n");
@@ -352,7 +348,7 @@ public class Main {
         }
 
         for (Cliente cliente : listaClientes) {
-            System.out.println("\n ---> " + cliente.getNome() + " | Saldo: R$" + cliente.getSaldo() + " | Perfil: " + cliente.getPerfil());
+            System.out.println("\n ---> " + cliente.getNome() + " |  Perfil: " + cliente.getPerfil());
         }
     }
     
