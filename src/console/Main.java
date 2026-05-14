@@ -400,7 +400,7 @@ public class Main {
         }
 
         for (Cliente cliente : listaClientes) {
-            System.out.println("\n ---> " + cliente.getNome() + " | Saldo: R$" + cliente.getSaldo() + " | Perfil: " + cliente.getPerfil());
+            //System.out.println("\n ---> " + cliente.getNome() + " | Saldo: R$" + cliente.getSaldo() + " | Perfil: " + cliente.getPerfil());
         }
     }
     
