@@ -24,9 +24,18 @@ public class Main {
             System.out.print("1 - Menu de Eventos \n2 - Menu de Clientes \n3 - Menu de Ingressos\n4 - Sair \n");
             System.out.println("------------------------------");
 
-            opcao = scanner.nextInt();
-            scanner.nextLine();
-
+            opcao = -1;
+            while (true) {
+                try {
+                    opcao = scanner.nextInt();
+                    scanner.nextLine(); // consome o newline restante
+                    break; // entrada válida, sai do loop
+                } catch (java.util.InputMismatchException e) {
+                    System.out.println("Entrada inválida. Por favor, insira um número correspondente às opções.");
+                    scanner.nextLine(); // descarta a entrada inválida
+                }
+            }
+            
             switch (opcao) {
                 case 1://menu de eventos
                     System.out.println("\n------- Menu de Eventos ------");
@@ -37,9 +46,18 @@ public class Main {
                     System.out.println("\n0 - Voltar");
                     System.out.println("------------------------------");
 
-                    int subOpcao = scanner.nextInt();
-                    scanner.nextLine();
-                    
+                    int subOpcao = -1;
+                    while (true) {
+                        try {
+                            subOpcao = scanner.nextInt();
+                            scanner.nextLine(); // consome o newline restante
+                            break; // entrada válida, sai do loop
+                        } catch (java.util.InputMismatchException e) {
+                            System.out.println("Entrada inválida. Por favor, insira um número correspondente às opções.");
+                            scanner.nextLine(); // descarta a entrada inválida
+                        }
+                    }
+
                     switch (subOpcao) {
                         case 0://voltar para o menu principal
                             break;
@@ -61,9 +79,18 @@ public class Main {
                     
                     System.out.println("\n0 - Voltar");
                     System.out.println("------------------------------");
-                    
-                    subOpcao = scanner.nextInt();
-                    scanner.nextLine();
+
+                    subOpcao = -1;
+                    while (true) {
+                        try {
+                            subOpcao = scanner.nextInt();
+                            scanner.nextLine(); // consome o newline restante
+                            break; // entrada válida, sai do loop
+                        } catch (java.util.InputMismatchException e) {
+                            System.out.println("Entrada inválida. Por favor, insira um número correspondente às opções.");
+                            scanner.nextLine(); // descarta a entrada inválida
+                        }
+                    }
 
                     switch (subOpcao) {
                         case 0://voltar para o menu principal
@@ -87,9 +114,17 @@ public class Main {
                     System.out.println("0 - Voltar");
                     System.out.println("-------------------------");
                     
-                    subOpcao = scanner.nextInt();
-                    scanner.nextLine();
-
+                    subOpcao = -1;
+                    while (true) {
+                        try {
+                            subOpcao = scanner.nextInt();
+                            scanner.nextLine(); // consome o newline restante
+                            break; // entrada válida, sai do loop
+                        } catch (java.util.InputMismatchException e) {
+                            System.out.println("Entrada inválida. Por favor, insira um número correspondente às opções.");
+                            scanner.nextLine(); // descarta a entrada inválida
+                        }
+                    }
                     switch (subOpcao) {
                         case 0://voltar para o menu principal
                             break;
@@ -98,6 +133,9 @@ public class Main {
                             break;
                         case 2:
                             ListarIngressos(ingressoGerenciador);
+                            break;
+                        case 3:
+                            editarStatusIngresso(ingressoGerenciador, scanner);
                             break;
                         default:
                             throw new AssertionError();
@@ -110,7 +148,7 @@ public class Main {
                     break;
 
                 default:
-                    throw new AssertionError();
+                    System.out.println("Opção inválida. Por favor, escolha uma opção válida.");
             }
         }
     }
@@ -183,7 +221,7 @@ public class Main {
             System.out.println("\n ---> " + tipo + experiencia.getTitulo() + ": R$" + experiencia.getPrecoBase());
         }
     }
-    
+
     private static void cadastrarEvento(Scanner scanner, EventoGerenciar eventoGerenciador) {//ERRO: CADASTRO DE EVENTOS != SHOW SEM COERÊNCIA DE DADOS
         System.out.println("\n--- Cadastro de Evento ---");
         System.out.println("1-Show | 2-Workshop | 3-Passeio");
@@ -403,7 +441,7 @@ public class Main {
                 System.out.println("Opção de status inválida. Nenhuma alteração realizada.");
                 return;
         }
-        
+
         System.out.println("Status do ingresso atualizado com sucesso para: " + ingressoSelecionado.getStatus());
     }
 }
