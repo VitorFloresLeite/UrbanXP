@@ -186,13 +186,46 @@ public class Main {
 
         System.out.print("Título: ");
         String titulo = scanner.nextLine();
+
         System.out.print("Preço Base: ");
         String input = scanner.nextLine().replace(",", ".");
         double preco = Double.parseDouble(input);
-        System.out.print("Data e Hora do Evento (DD/MM/AAAA HH:MM): ");
 
-        String dataHoraInput = scanner.nextLine();
-        java.time.LocalDateTime dataHoraEvento = java.time.LocalDateTime.parse(dataHoraInput, java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+        System.out.print("Data do Evento (DD/MM/AAAA): ");
+        String dataInput = null;
+    
+        try {//por segurança, para evitar que o programa quebre caso o usuário insira um formato de data inválido
+            dataInput = scanner.nextLine().trim();
+        } catch (Exception e) {
+            System.out.println("Data inválida.");
+        }
+
+        if (dataInput == null || dataInput.isEmpty()) {//verificação adicional para garantir que a data foi lida corretamente
+            System.out.println("Falha ao ler a data. Cancelando cadastro.");
+            return;
+        }
+
+        System.out.print("Hora do Evento (HH:MM): ");
+        String horaInput = null;
+
+        try {//mesma lógica de segurança para a hora
+            horaInput = scanner.nextLine().trim();
+        } catch (Exception e) {
+            System.out.println("Hora inválida.");
+        }
+
+        if (horaInput == null || horaInput.isEmpty()) {
+            System.out.println("Falha ao ler a hora. Cancelando cadastro.");
+            return;
+        }
+
+        java.time.LocalDateTime dataHoraEvento;
+        try {
+            dataHoraEvento = java.time.LocalDateTime.parse(dataInput + " " + horaInput, java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+        } catch (java.time.format.DateTimeParseException e) {
+            System.out.println("Formato de data/hora inválido. Cancelando cadastro.");
+            return;
+        }
         Experiencia novaExp = null;
 
         switch (tipo) {//Campos não especificados pelo atendente, mas necessários para o cadastro de cada tipo de evento
@@ -209,7 +242,7 @@ public class Main {
             case 3:
                 System.out.print("Ponto de Encontro: ");
                 String ponto = scanner.nextLine();
-                System.out.print("Guia: ");
+                System.out.print("Nome do guia turístico: ");
                 String guia = scanner.nextLine();
                 novaExp = new PasseioTuristico(titulo, "Passeio Turístico", dataHoraEvento, 20, preco, ponto, guia);
                 break;
@@ -220,7 +253,7 @@ public class Main {
         if (novaExp != null) {
             eventoGerenciador.cadastrar(novaExp);
             System.out.println("Evento cadastrado com sucesso!");
-            System.out.println(novaExp.GerarResumo());
+            novaExp.GerarResumo();
         }
     }
     
