@@ -555,22 +555,24 @@ public class Main {
             return;
         }
         scanner.nextLine();
-
-        switch (opcaoStatus) {
-            case 1:
-                ingressoSelecionado.setStatus(IngressoStatus.PAGO);
-                break;
-            case 2:
-                ingressoSelecionado.setStatus(IngressoStatus.RESERVADO);
-                break;
-            case 3:
-                ingressoSelecionado.setStatus(IngressoStatus.CANCELADO);
-                break;
-            default:
-                System.out.println("Opção de status inválida. Nenhuma alteração realizada.");
-                return;
+        if (ingressoSelecionado.getStatus() != IngressoStatus.CANCELADO) {
+            switch (opcaoStatus) {
+                case 1:
+                    ingressoSelecionado.setStatus(IngressoStatus.PAGO);
+                    break;
+                case 2:
+                    ingressoSelecionado.setStatus(IngressoStatus.RESERVADO);
+                    break;
+                case 3:
+                    ingressoSelecionado.setStatus(IngressoStatus.CANCELADO);
+                    break;
+                default:
+                    System.out.println("Opção de status inválida. Nenhuma alteração realizada.");
+                    return;
+            }
+            System.out.println("Status do ingresso atualizado com sucesso para: " + ingressoSelecionado.getStatus());
+        }else{
+            System.out.println("\nO ingresso foi cancelado, status não pode mais ser atualizado");
         }
-
-        System.out.println("Status do ingresso atualizado com sucesso para: " + ingressoSelecionado.getStatus());
     }
 }
