@@ -13,7 +13,6 @@ public class Workshop extends Experiencia {
 
     @Override
     public String GerarResumo() {
-        return String.format("WORKSHOP: %s | Materiais: %s | Vagas: %d",
-                getTitulo(), materiais, getCapacidadeMax());
+        return String.format("WORKSHOP: %s | Materiais necessários: %s | Vagas: %d",getTitulo(), materiais, getCapacidadeMax());
     }
 }

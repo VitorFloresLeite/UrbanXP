@@ -3,14 +3,14 @@ import java.time.LocalDateTime;
 
 
 public abstract class Experiencia {
-    private String Titulo;
-    private String descricao;
-    private LocalDateTime dataHora;
-    private int capacidadeMax;
-    private double precoBase;
+    private final String titulo;
+    private final String descricao;
+    private final LocalDateTime dataHora;
+    private final int capacidadeMax;
+    private final double precoBase;
 
     public Experiencia(String titulo, String descricao, LocalDateTime dataHora, int capacidadeMax, double precoBase){
-        this.Titulo = titulo;
+        this.titulo = titulo;
         this.descricao = descricao;
         this.dataHora = dataHora;
         this.capacidadeMax = capacidadeMax;
@@ -20,7 +20,7 @@ public abstract class Experiencia {
     public abstract String GerarResumo();
 
     public String getTitulo(){
-        return Titulo;
+        return titulo;
     }
     public String getDescricao(){
         return descricao;
