@@ -15,12 +15,15 @@ public class Main {
         ClienteGerenciar clienteGerenciador = new ClienteGerenciar();
         EventoGerenciar eventoGerenciador = new EventoGerenciar();
         IngressoGerenciar ingressoGerenciador = new IngressoGerenciar();
-        
+
         Scanner scanner = new Scanner(System.in);
 
         while (programaLigado) {
-            System.out.print("\nDigite o número do que deseja fazer \n");
-            System.out.print("1 - Cadastrar evento \n2 - Cadastrar Cliente \n3 - Emitir ingressos \n4 - Listar eventos \n5 - Sair \n");
+            System.out.println("\n------- Menu Principal -------");
+            System.out.print("Qual menu deseja acessar? \n");
+            System.out.print("1 - Menu de Eventos \n2 - Menu de Clientes \n3 - Menu de Ingressos\n4 - Sair \n");
+            System.out.println("------------------------------");
+
             opcao = scanner.nextInt();
             scanner.nextLine();
 
@@ -28,21 +31,80 @@ public class Main {
                 /*esse switch deve ser alterado para que cada opção chame um menu secundário, onde existam mais opções a serem efetuadas por cada setor.
                 por exemplo: no menu de ingressos devem ter as opções de listar ingressos, editar status de ingressos, etc.
                 O Mesmo se aplica para o menu de eventos e clientes.*/
-                case 1:
-                    cadastrarEvento(scanner, eventoGerenciador);
+                case 1://menu de eventos
+                    System.out.println("\n------- Menu de Eventos ------");
+                    System.out.println("Selecione uma opção:");
+                    System.out.println("1 - Cadastrar Evento");
+                    System.out.println("2 - Listar Eventos");
+                    
+                    System.out.println("\n0 - Voltar");
+                    System.out.println("------------------------------");
+
+                    int subOpcao = scanner.nextInt();
+                    scanner.nextLine();
+                    
+                    switch (subOpcao) {
+                        case 0://voltar para o menu principal
+                            break;
+                        case 1:
+                            cadastrarEvento(scanner, eventoGerenciador);
+                            break;
+                        case 2:
+                            ListarEventos(scanner, eventoGerenciador);
+                            break;
+                        default:
+                            throw new AssertionError();
+                    }
                     break;
-                case 2:
-                    cadastrarCliente(scanner, clienteGerenciador);
+                case 2://menu de clientes
+                    System.out.println("\n------ Menu de Clientes ------");
+                    System.out.println("Selecione uma opção:");
+                    System.out.println("1 - Cadastrar Cliente");
+                    System.out.println("2 - Listar Clientes");
+                    
+                    System.out.println("\n0 - Voltar");
+                    System.out.println("------------------------------");
+                    
+                    subOpcao = scanner.nextInt();
+                    scanner.nextLine();
+
+                    switch (subOpcao) {
+                        case 0://voltar para o menu principal
+                            break;
+                        case 1:
+                            cadastrarCliente(scanner, clienteGerenciador);
+                            break;
+                        default:
+                            throw new AssertionError();
+                    }
                     break;
-                case 3:
-                    emitirIngresso(scanner, clienteGerenciador, eventoGerenciador, ingressoGerenciador);
+                case 3://menu de ingressos
+                    System.out.println("\n--- Menu de Ingressos ---");
+                    System.out.println("Selecione uma opção:");
+                    System.out.println("1 - Emitir Ingresso");
+                    System.out.println("2 - Listar Ingressos");
+                    
+                    System.out.println("0 - Voltar");
+                    System.out.println("-------------------------");
+                    
+                    subOpcao = scanner.nextInt();
+                    scanner.nextLine();
+
+                    switch (subOpcao) {
+                        case 0://voltar para o menu principal
+                            break;
+                        case 1:
+                            emitirIngresso(scanner, clienteGerenciador, eventoGerenciador, ingressoGerenciador);
+                            break;
+                        default:
+                            throw new AssertionError();
+                    }
                     break;
                 case 4:
-                    ListarEventos(scanner, eventoGerenciador);
-                    break;
-                case 5:
+                    System.out.println("\nSaindo do programa...");
                     programaLigado = false;
                     break;
+
                 default:
                     throw new AssertionError();
             }
