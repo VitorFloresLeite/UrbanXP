@@ -26,7 +26,7 @@ public class Main {
 
             // Substituído o try-catch repetitivo pelo método lerInteiro
             opcao = lerInteiro(scanner, "Opção: ");
-            
+
             switch (opcao) {
                 case 1:
                     System.out.println("\n------- Menu de Eventos ------");
@@ -82,7 +82,7 @@ public class Main {
                     System.out.println("3 - Editar Status");
                     System.out.println("0 - Voltar");
                     System.out.println("-------------------------");
-                    
+
                     subOpcao = lerInteiro(scanner, "Opção: ");
                     switch (subOpcao) {
                         case 0:
@@ -119,7 +119,7 @@ public class Main {
         System.out.println("1 - Regular");
         System.out.println("2 - Estudante");
         System.out.println("3 - Premium");
-        
+
         int opcaoPerfil = lerInteiro(scanner, "Opção: ");
 
         ClientePerfil perfilEscolhido = ClientePerfil.REGULAR;
@@ -141,7 +141,7 @@ public class Main {
 
         int modo = lerInteiro(scanner, "Opção: ");
         List<Experiencia> listaEventos = gerenciador.listarTodos();
-        
+
         if(listaEventos.isEmpty()){
             System.out.println("Nenhum evento cadastrado.");
             return;
@@ -183,9 +183,11 @@ public class Main {
         System.out.print("Título: ");
         String titulo = scanner.nextLine();
 
+        double preco = lerDouble(scanner, "Preço base: ");
+
         System.out.print("Preço Base: ");
         String input = scanner.nextLine().replace(",", ".");
-        double preco = Double.parseDouble(input);
+        double precoDouble = Double.parseDouble(input);
 
         System.out.print("Data do Evento (DD/MM/AAAA): ");
         String dataInput = scanner.nextLine().trim();
@@ -200,7 +202,7 @@ public class Main {
             System.out.println("Formato de data/hora inválido. Cancelando cadastro.");
             return;
         }
-        
+
         Experiencia novaExp = null;
 
         switch (tipo) {
@@ -234,7 +236,7 @@ public class Main {
         if (novaExp != null) {
             eventoGerenciador.cadastrar(novaExp);
             System.out.println("Evento cadastrado com sucesso!");
-            System.out.println(novaExp.GerarResumo()); 
+            System.out.println(novaExp.GerarResumo());
         }
     }
 
@@ -306,7 +308,7 @@ public class Main {
         System.out.println("\nSucesso: ingresso emitido!");
         novoIngresso.exibirDetalhes();
     }
-    
+
     private static void listarClientes(ClienteGerenciar gerenciador){
         System.out.println("\n--- Listar Clientes ---");
         List<Cliente> listaClientes = gerenciador.getListaClientes();
@@ -318,7 +320,7 @@ public class Main {
             System.out.println("\n ---> " + cliente.getNome() + " | Perfil: " + cliente.getPerfil());
         }
     }
-    
+
     private static void listarIngressos(IngressoGerenciar gerenciador){
         System.out.println("\n--- Listar Ingressos ---");
         List<Ingresso> listaIngressos = gerenciador.listarTodos();
@@ -330,7 +332,7 @@ public class Main {
             ingresso.exibirDetalhes();
         }
     }
-    
+
     private static void editarStatusIngresso(IngressoGerenciar gerenciador, Scanner scanner) {
         System.out.println("\n--- Editar Status do Ingresso ---");
         List<Ingresso> listaIngressos = gerenciador.listarTodos();
@@ -360,18 +362,31 @@ public class Main {
         }
     }
 
-   
+
     private static int lerInteiro(Scanner scanner, String mensagem) {
         while (true) {
             try {
                 System.out.print(mensagem);
                 int valor = scanner.nextInt();
-                scanner.nextLine(); 
+                scanner.nextLine();
                 return valor;
             } catch (java.util.InputMismatchException e) {
                 System.out.println("Erro: Digite um número válido.");
-                scanner.nextLine(); 
+                scanner.nextLine();
             }
         }
     }
+
+    private static double lerDouble(Scanner scanner, String mensagem){
+        while(true){
+            try {
+                System.out.print(mensagem);
+                String input = scanner.nextLine().replace(",", ".");
+                return Double.parseDouble(input);
+            } catch (NumberFormatException e){
+                System.out.println("Erro: Digite um preço válido (ex: 99.90).");
+            }
+        }
+    }
+
 }
