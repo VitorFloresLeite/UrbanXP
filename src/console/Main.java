@@ -268,27 +268,50 @@ public class Main {
         }
         Experiencia novaExp = null;
 
-        switch (tipo) {//Campos não especificados pelo atendente, mas necessários para o cadastro de cada tipo de evento
+        switch (tipo) {
             case 1:
                 System.out.print("Artista Principal: ");
                 String artista = scanner.nextLine();
-                novaExp = new Show(titulo, "Show Musical", dataHoraEvento, 100, preco, artista);
+
+                Show.Builder showBuilder = new Show.Builder(
+                    titulo, "Show Musical", dataHoraEvento, 100, preco, artista
+                );
+
+                preencherOpcionais(scanner, showBuilder);
+                novaExp = showBuilder.build();
                 break;
+
             case 2:
                 System.out.print("Materiais: ");
                 String mat = scanner.nextLine();
-                novaExp = new Workshop(titulo, "Workshop Prático", dataHoraEvento, 30, preco, mat);
+
+                Workshop.Builder workshopBuilder = new Workshop.Builder(
+                    titulo, "Workshop Prático", dataHoraEvento, 30, preco, mat
+                );
+
+                preencherOpcionais(scanner, workshopBuilder);
+                novaExp = workshopBuilder.build();
                 break;
+
             case 3:
                 System.out.print("Ponto de Encontro: ");
                 String ponto = scanner.nextLine();
+
                 System.out.print("Nome do guia turístico: ");
                 String guia = scanner.nextLine();
-                novaExp = new PasseioTuristico(titulo, "Passeio Turístico", dataHoraEvento, 20, preco, ponto, guia);
+
+                PasseioTuristico.Builder passeioBuilder = new PasseioTuristico.Builder(
+                    titulo, "Passeio Turístico", dataHoraEvento, 20, preco, ponto, guia
+                );
+
+                preencherOpcionais(scanner, passeioBuilder);
+                novaExp = passeioBuilder.build();
                 break;
+
             default:
                 System.out.println("Tipo de evento inválido.");
         }
+
 
         if (novaExp != null) {
             eventoGerenciador.cadastrar(novaExp);
@@ -296,6 +319,31 @@ public class Main {
             novaExp.GerarResumo();
         }
     }
+
+    private static void preencherOpcionais(Scanner scanner, Experiencia.Builder<?> builder) {
+        System.out.print("Brindes (separados por vírgula, ou Enter para nenhum): ");
+        String brindes = scanner.nextLine().trim();
+        if (!brindes.isEmpty()) {
+            for (String brinde : brindes.split(",")) {
+                builder.adicionarBrinde(brinde.trim());
+            }
+        }
+
+        System.out.print("Patrocinadores (separados por vírgula, ou Enter para nenhum): ");
+        String patrocinadores = scanner.nextLine().trim();
+        if (!patrocinadores.isEmpty()) {
+            for (String patrocinador : patrocinadores.split(",")) {
+                builder.adicionarPatrocinador(patrocinador.trim());
+            }
+        }
+
+        System.out.print("Restrição de idade (ou Enter para nenhuma): ");
+        String restricao = scanner.nextLine().trim();
+        if (!restricao.isEmpty()) {
+            builder.restricaoIdade(Integer.parseInt(restricao));
+        }
+    }
+
     
     private static void emitirIngresso(Scanner scanner, ClienteGerenciar clienteGerenciador, EventoGerenciar eventoGerenciador, IngressoGerenciar ingressoGerenciador) {
         System.out.println("\n--- Emissão de Ingresso ---");
