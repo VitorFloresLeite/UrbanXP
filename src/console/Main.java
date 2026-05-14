@@ -28,9 +28,6 @@ public class Main {
             scanner.nextLine();
 
             switch (opcao) {
-                /*esse switch deve ser alterado para que cada opção chame um menu secundário, onde existam mais opções a serem efetuadas por cada setor.
-                por exemplo: no menu de ingressos devem ter as opções de listar ingressos, editar status de ingressos, etc.
-                O Mesmo se aplica para o menu de eventos e clientes.*/
                 case 1://menu de eventos
                     System.out.println("\n------- Menu de Eventos ------");
                     System.out.println("Selecione uma opção:");
