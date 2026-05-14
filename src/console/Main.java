@@ -99,6 +99,7 @@ public class Main {
                     break;
                 case 4:
                     System.out.println("\nSaindo do programa...");
+                    scanner.close();
                     programaLigado = false;
                     break;
 
@@ -117,7 +118,11 @@ public class Main {
         double saldo = scanner.nextDouble();
         scanner.nextLine();
 
-        System.out.println("Escolha o perfil (1 - REGULAR, 2 - ESTUDANTE, 3 - PREMIUM):");
+        System.out.println("Escolha o perfil:");
+        System.out.println("1 - Regular");
+        System.out.println("2 - Estudante");
+        System.out.println("3 - Premium");
+        
         int opcaoPerfil = scanner.nextInt();
 
         ClientePerfil perfilEscolhido = ClientePerfil.REGULAR;
@@ -130,11 +135,21 @@ public class Main {
         System.out.println("Cliente " + nome + " cadastrado com sucesso!\n");
     }
 
-    private static void ListarEventos(Scanner scanner, EventoGerenciar gerenciador){
+    private static void ListarEventos(Scanner scanner, EventoGerenciar gerenciador){//SEM SUPORTE A INFORMAÇÕES EXTRAS
         System.out.println("\n--- Listar Eventos ---");
-        System.out.println("1-Por nome | 2-Por preço | 3-Por data");
+        System.out.println("Como deseja ordenar sua pesquisa?");
+        System.out.println("1-Por nome");
+        System.out.println("2-Por preço");
+        System.out.println("3-Por data");
+
         int modo = scanner.nextInt();
         List<Experiencia> listaEventos = gerenciador.listarTodos();
+        
+        if(listaEventos.isEmpty()){
+            System.out.println("Nenhum evento cadastrado.");
+            return;
+        }
+        
         switch(modo){
             case 1:
                 listaEventos.sort(Comparator.comparing(Experiencia::getTitulo));
@@ -163,8 +178,8 @@ public class Main {
         }
     }
 
-    private static void cadastrarEvento(Scanner scanner, EventoGerenciar eventoGerenciador) {
-        System.out.println("\n--- Cadastro de Experiência ---");
+    private static void cadastrarEvento(Scanner scanner, EventoGerenciar eventoGerenciador) {//ERRO: CADASTRO DE EVENTOS != SHOW SEM COERÊNCIA DE DADOS
+        System.out.println("\n--- Cadastro de Evento ---");
         System.out.println("1-Show | 2-Workshop | 3-Passeio");
         int tipo = scanner.nextInt();
         scanner.nextLine();
@@ -221,8 +236,6 @@ public class Main {
             return;
         }
 
-
-        // Aqui você pode implementar a lógica para emitir o ingresso, como verificar saldo, disponibilidade, etc.
         ClientePerfil perfil = cliente.getPerfil();
         PoliticaDesconto politica;
         boolean prioridade = false;
