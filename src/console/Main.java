@@ -191,29 +191,23 @@ public class Main {
 
         switch(modo){
             case 1:
-                listaEventos.sort(Comparator.comparing(Experiencia::getTitulo));
+                listaEventos.sort(new java.util.Comparator<Experiencia>(){
+                    @Override
+                    public int compare(Experiencia e1, Experiencia e2){
+                        return e1.getTitulo().compareToIgnoreCase(e2.getTitulo());
+                    }
+                });
                 break;
             case 2:
-                listaEventos.sort(Comparator.comparing(Experiencia::getPrecoBase));
+                listaEventos.sort(java.util.Comparator.comparing(Experiencia::getPrecoBase));
                 break;
             case 3:
-                listaEventos.sort(Comparator.comparing(Experiencia::getDataHora));
+                listaEventos.sort(java.util.Comparator.comparing(Experiencia::getDataHora));
                 break;
-            default:
-                throw new AssertionError();
         }
 
-        for (Experiencia experiencia : listaEventos) {
-            String tipo = "";
-            if(experiencia instanceof Show){
-                tipo = "( Show )";
-            }else if(experiencia instanceof Workshop){
-                tipo = "( Workshop )";
-            }else if(experiencia instanceof PasseioTuristico){
-                tipo = " ( Passeio turístico ) ";
-            }
-
-            System.out.println("\n ---> " + tipo + experiencia.getTitulo() + ": R$" + experiencia.getPrecoBase());
+        for(Experiencia experiencia : listaEventos){
+            System.out.println("\n ---> " + experiencia.GerarResumo());
         }
     }
 
