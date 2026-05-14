@@ -65,10 +65,10 @@ public class Main {
                             cadastrarEvento(scanner, eventoGerenciador);
                             break;
                         case 2:
-                            ListarEventos(scanner, eventoGerenciador);
+                            listarEventos(scanner, eventoGerenciador);
                             break;
                         default:
-                            throw new AssertionError();
+                            System.out.println("Opção inválida. Por favor, escolha uma opção válida.");
                     }
                     break;
                 case 2://menu de clientes
@@ -99,10 +99,10 @@ public class Main {
                             cadastrarCliente(scanner, clienteGerenciador);
                             break;
                         case 2:
-                            ListarClientes(clienteGerenciador);
+                            listarClientes(clienteGerenciador);
                             break;
                         default:
-                            throw new AssertionError();
+                            System.out.println("Opção inválida. Por favor, escolha uma opção válida.");
                     }
                     break;
                 case 3://menu de ingressos
@@ -132,13 +132,13 @@ public class Main {
                             emitirIngresso(scanner, clienteGerenciador, eventoGerenciador, ingressoGerenciador);
                             break;
                         case 2:
-                            ListarIngressos(ingressoGerenciador);
+                            listarIngressos(ingressoGerenciador);
                             break;
                         case 3:
                             editarStatusIngresso(ingressoGerenciador, scanner);
                             break;
                         default:
-                            throw new AssertionError();
+                            System.out.println("Opção inválida. Por favor, escolha uma opção válida.");
                     }
                     break;
                 case 4:
@@ -152,7 +152,6 @@ public class Main {
             }
         }
     }
-
 
     private static void cadastrarCliente(Scanner scanner, ClienteGerenciar clienteGerenciador) {
         System.out.println("Digite o nome do cliente:");
@@ -179,7 +178,7 @@ public class Main {
         System.out.println("Cliente " + nome + " cadastrado com sucesso!\n");
     }
 
-    private static void ListarEventos(Scanner scanner, EventoGerenciar gerenciador){//SEM SUPORTE A INFORMAÇÕES EXTRAS
+    private static void listarEventos(Scanner scanner, EventoGerenciar gerenciador){//SEM SUPORTE A INFORMAÇÕES EXTRAS
         System.out.println("\n--- Listar Eventos ---");
         System.out.println("Como deseja ordenar sua pesquisa?");
         System.out.println("1-Por nome");
@@ -303,46 +302,131 @@ public class Main {
     
     private static void emitirIngresso(Scanner scanner, ClienteGerenciar clienteGerenciador, EventoGerenciar eventoGerenciador, IngressoGerenciar ingressoGerenciador) {
         System.out.println("\n--- Emissão de Ingresso ---");
-        System.out.println("Digite o nome do cliente:");
-        String nomeCliente = scanner.nextLine();
-        Cliente cliente = clienteGerenciador.buscarPorNome(nomeCliente);
 
-        if (cliente == null) {
-            System.out.println("Cliente não encontrado.");
-            return;
+        Cliente cliente = null;
+        // Loop até obter um cliente válido ou o usuário cancelar
+        while (true) {
+            System.out.print("Digite o nome do cliente (ou 0 para cancelar): ");
+            String nomeCliente = scanner.nextLine().trim();
+
+            if ("0".equals(nomeCliente)) {
+                System.out.println("Operação cancelada.");
+                return;
+            }
+            if (nomeCliente.isEmpty()) {
+                System.out.println("Nome não pode ser vazio. Tente novamente.");
+                continue;
+            }
+
+            try {
+                cliente = clienteGerenciador.buscarPorNome(nomeCliente);
+            } catch (Exception e) {
+                System.out.println("Erro ao buscar cliente. Tente novamente.");
+                continue;
+            }
+
+            if (cliente == null) {
+                System.out.print("Cliente não encontrado. Deseja tentar novamente? (s/n): ");
+                String opc = scanner.nextLine().trim().toLowerCase();
+                if (opc.equals("s") || opc.equals("sim")) {
+                    continue;
+                } else {
+                    System.out.println("Operação cancelada.");
+                    return;
+                }
+            }
+
+            // cliente encontrado
+            break;
         }
 
-        System.out.println("Digite o título do evento:");
-        String tituloEvento = scanner.nextLine();
-        Experiencia evento = eventoGerenciador.buscarPorTitulo(tituloEvento);
+        Experiencia evento = null;
+        // Loop até obter um evento válido ou o usuário cancelar
+        while (true) {
+            System.out.println("Digite o título do evento (ou 0 para cancelar): ");
+            String tituloEvento = scanner.nextLine().trim();
 
-        if (evento == null) {
-            System.out.println("Evento não encontrado.");
-            return;
+            if ("0".equals(tituloEvento)) {
+                System.out.println("Operação cancelada.");
+                return;
+            }
+            if (tituloEvento.isEmpty()) {
+                System.out.println("Título não pode ser vazio. Tente novamente.");
+                continue;
+            }
+
+            try {
+                evento = eventoGerenciador.buscarPorTitulo(tituloEvento);
+            } catch (Exception e) {
+                System.out.println("Erro ao buscar evento. Tente novamente.");
+                continue;
+            }
+
+            if (evento == null) {
+                System.out.println("Evento não encontrado. Deseja listar os eventos disponíveis? (s/n): ");
+                String opc = scanner.nextLine().trim().toLowerCase();
+                if (opc.equals("s") || opc.equals("sim")) {
+                    List<Experiencia> todos = eventoGerenciador.listarTodos();
+                    if (todos.isEmpty()) {
+                        System.out.println("Nenhum evento cadastrado.");
+                    } else {
+                        System.out.println("\nEventos disponíveis:");
+                        for (Experiencia e : todos) {
+                            System.out.println(" - " + e.getTitulo() + " | R$" + e.getPrecoBase());
+                        }
+                    }
+                }
+                System.out.println("Deseja tentar informar outro título? (s/n): ");
+                String retry = scanner.nextLine().trim().toLowerCase();
+                if (retry.equals("s") || retry.equals("sim")) {
+                    continue;
+                } else {
+                    System.out.println("Operação cancelada.");
+                    return;
+                }
+            }
+
+            // evento encontrado
+            break;
         }
 
-        ClientePerfil perfil = cliente.getPerfil();
+        // Determina política de desconto e prioridade conforme perfil
         PoliticaDesconto politica;
         boolean prioridade = false;
-
-        if (perfil == ClientePerfil.ESTUDANTE){
-            politica = new DescontoEstudante();
-        }else if (perfil == ClientePerfil.PREMIUM){
-            politica = new DescontoPremium();
-            prioridade = true;
-        }else {
-            politica = new DescontoRegular();
+        ClientePerfil perfil = cliente.getPerfil();
+        try {
+            if (perfil == ClientePerfil.ESTUDANTE) {
+                politica = new DescontoEstudante();
+            } else if (perfil == ClientePerfil.PREMIUM) {
+                politica = new DescontoPremium();
+                prioridade = true;
+            } else {
+                politica = new DescontoRegular();
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao determinar política de desconto. Operação cancelada.");
+            return;
         }
 
-        double valorFinal = politica.calcularValor(evento.getPrecoBase());
-        Ingresso novoIngresso = new Ingresso(evento, cliente, valorFinal, IngressoStatus.RESERVADO, prioridade);
-        ingressoGerenciador.cadastrar(novoIngresso);
+        double valorFinal;
+        try {
+            valorFinal = politica.calcularValor(evento.getPrecoBase());
+        } catch (Exception e) {
+            System.out.println("Erro ao calcular o valor do ingresso. Operação cancelada.");
+            return;
+        }
 
-        System.out.println("\nSucesso: ingresso emitido para " + cliente.getNome());
-        System.out.printf("Evento: %s | Valor final: R$ %.2f | Prioridade: %s\n\n", evento.getTitulo(), valorFinal, (prioridade ? "Sim" : "Não"));
+        try {
+            Ingresso novoIngresso = new Ingresso(evento, cliente, valorFinal, IngressoStatus.RESERVADO, prioridade);
+            ingressoGerenciador.cadastrar(novoIngresso);
+            System.out.println("\nSucesso: ingresso emitido para " + cliente.getNome());
+            novoIngresso.exibirDetalhes();
+        } catch (Exception e) {
+            System.out.println("Erro ao emitir ingresso. Operação não concluída.");
+        }
     }
     
-    private static void ListarClientes(ClienteGerenciar gerenciador){
+    private static void listarClientes(ClienteGerenciar gerenciador){
         System.out.println("\n--- Listar Clientes ---");
         List<Cliente> listaClientes = gerenciador.getListaClientes();
 
@@ -356,7 +440,7 @@ public class Main {
         }
     }
     
-    private static void ListarIngressos(IngressoGerenciar gerenciador){
+    private static void listarIngressos(IngressoGerenciar gerenciador){
         System.out.println("\n--- Listar Ingressos ---");
         List<Ingresso> listaIngressos = gerenciador.listarTodos();
 
@@ -369,6 +453,7 @@ public class Main {
             ingresso.exibirDetalhes();
         }
     }
+    
     private static void editarStatusIngresso(IngressoGerenciar gerenciador, Scanner scanner) {
         System.out.println("\n--- Editar Status do Ingresso ---");
         List<Ingresso> listaIngressos = gerenciador.listarTodos();
@@ -445,4 +530,3 @@ public class Main {
         System.out.println("Status do ingresso atualizado com sucesso para: " + ingressoSelecionado.getStatus());
     }
 }
-
